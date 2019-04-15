@@ -12,8 +12,9 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       PGDATA: ${DB_VOLUME_CONTAINER}
-    env_file:
-      - secrets/postgres.env
+      POSTGRES_PASSWORD: 7Lf9d21kbd184Frg
+    #env_file:
+    #  - secrets/postgres.env
     volumes:
       - "db:${DB_VOLUME_CONTAINER}"
 
@@ -37,6 +38,8 @@ services:
       - "/etc/pam.d:/etc/pam.d"
       - "/etc/passwd:/etc/passwd"
       - "/etc/shadow:/etc/shadow"
+      - "/csv:/csv"
+      - "/var/local:/var/local"
     ports:
       - "8080:8080"
       - "8081:8081"
@@ -54,10 +57,12 @@ services:
       # Postgres db info
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_HOST: hub-db
+      POSTGRES_PASSWORD: 7Lf9d21kbd184Frg
     env_file:
       - secrets/postgres.env
     command: >
       jupyterhub -f /srv/jupyterhub/jupyterhub_config.py
+    mem_limit: 60Gb
 
 volumes:
   data:
